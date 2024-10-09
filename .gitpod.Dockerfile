@@ -2,18 +2,19 @@ FROM gitpod/workspace-full:latest
 
 # Magento Config
 ENV INSTALL_MAGENTO YES
-ENV MAGENTO_VERSION 2.4.4
+ENV MAGENTO_VERSION 2.4.7-p1
 ENV MAGENTO_ADMIN_EMAIL admin@magento.com
 ENV MAGENTO_ADMIN_PASSWORD password1
 ENV MAGENTO_ADMIN_USERNAME admin
 ENV MAGENTO_COMPOSER_AUTH_USER 64229a8ef905329a184da4f174597d25
 ENV MAGENTO_COMPOSER_AUTH_PASS a0df0bec06011c7f1e8ea8833ca7661e
+ENV MAGENTO_INSTALL_MAGE_CACHE_CLEANER YES
 
 # Platform Config
-ENV PHP_VERSION 8.1
+ENV PHP_VERSION 8.3
 ENV PERCONA_MAJOR 5.7
 ENV ELASTICSEARCH_VERSION 7.9.3
-ENV COMPOSER_VERSION 2.3.5
+ENV COMPOSER_VERSION 2.7.6
 ENV NODE_VERSION 14.17.3
 ENV MYSQL_ROOT_PASSWORD nem4540
 ENV XDEBUG_DEFAULT_ENABLED YES
@@ -25,7 +26,7 @@ ENV PATH $NVM_DIR/versions/node/v$NODE_VERSION/bin:$PATH
 RUN sudo apt-get update
 RUN sudo apt-get -y install lsb-release
 RUN sudo apt-get -y install apt-utils
-RUN sudo apt-get -y install python
+RUN sudo apt-get -y install python-is-python3
 RUN sudo apt-get install -y libmysqlclient-dev
 RUN sudo apt-get -y install rsync
 RUN sudo apt-get -y install curl
@@ -48,10 +49,8 @@ RUN sudo apt-get update \
     && sudo apt install ca-certificates apt-transport-https -y \
     && sudo add-apt-repository ppa:ondrej/php \
     && sudo apt-get update \
-    && sudo rm /etc/php/8.1/fpm/pool.d/www.conf \
     && sudo apt-get install -y php${PHP_VERSION}-dev php${PHP_VERSION}-fpm php${PHP_VERSION}-common php${PHP_VERSION}-cli php${PHP_VERSION}-imagick php${PHP_VERSION}-gd php${PHP_VERSION}-mysql php${PHP_VERSION}-pgsql php${PHP_VERSION}-imap php-memcached php${PHP_VERSION}-mbstring php${PHP_VERSION}-xml php${PHP_VERSION}-xmlrpc php${PHP_VERSION}-soap php${PHP_VERSION}-zip php${PHP_VERSION}-curl php${PHP_VERSION}-bcmath php${PHP_VERSION}-sqlite3 php${PHP_VERSION}-intl php-dev php${PHP_VERSION}-dev php${PHP_VERSION}-xdebug php-redis \
     && sudo php -r "readfile('http://getcomposer.org/installer');" | sudo php -- --install-dir=/usr/bin/ --version=${COMPOSER_VERSION} --filename=composer \
-    && sudo chown gitpod:gitpod /run/php \
     && sudo chown -R gitpod:gitpod /etc/php \
     && sudo apt-get remove -y --purge software-properties-common \
     && sudo apt-get -y autoremove \
@@ -61,7 +60,7 @@ RUN sudo apt-get update \
     && sudo echo "daemon off;" >> /etc/nginx/nginx.conf
 
 #Adjust few options for xDebug and disable it by default
-RUN echo "xdebug.remote_enable=on" >> /etc/php/${PHP_VERSION}/mods-available/xdebug.ini
+RUN sudo echo "xdebug.remote_enable=on" >> /etc/php/${PHP_VERSION}/mods-available/xdebug.ini
     #&& echo "xdebug.remote_autostart=on" >> /etc/php/${PHP_VERSION}/mods-available/xdebug.ini
     #&& echo "xdebug.profiler_enable=On" >> /etc/php/${PHP_VERSION}/mods-available/xdebug.ini \
     #&& echo "xdebug.profiler_output_dir = /var/log/" >> /etc/php/${PHP_VERSION}/mods-available/xdebug.ini \
@@ -69,7 +68,7 @@ RUN echo "xdebug.remote_enable=on" >> /etc/php/${PHP_VERSION}/mods-available/xde
     #&& echo "xdebug.show_error_trace=On" >> /etc/php/${PHP_VERSION}/mods-available/xdebug.ini \
     #&& echo "xdebug.show_exception_trace=On" >> /etc/php/${PHP_VERSION}/mods-available/xdebug.ini
     
-RUN if [ ! "$XDEBUG_DEFAULT_ENABLED" = "YES" ]; then mv /etc/php/${PHP_VERSION}/cli/conf.d/20-xdebug.ini /etc/php/${PHP_VERSION}/cli/conf.d/20-xdebug.ini-bak; fi
+RUN if [ ! "$XDEBUG_DEFAULT_ENABLED" = "YES" ]; then sudo mv /etc/php/${PHP_VERSION}/cli/conf.d/20-xdebug.ini /etc/php/${PHP_VERSION}/cli/conf.d/20-xdebug.ini-bak; fi
 
 # Install MySQL
 RUN sudo apt-get update \
@@ -92,6 +91,7 @@ RUN set -ex; \
 		done; \
 	} | sudo debconf-set-selections; \
 	sudo apt-get update; \
+	sudo percona-release setup ps-57; \
 	sudo apt-get install -y \
 		percona-server-server-${PERCONA_MAJOR} percona-server-client-${PERCONA_MAJOR} percona-server-common-${PERCONA_MAJOR} \
 	;
@@ -133,6 +133,19 @@ RUN sudo echo "net.core.somaxconn=65536" | sudo tee /etc/sysctl.conf
 
 RUN sudo rm -f /usr/bin/php
 RUN sudo ln -s /usr/bin/php${PHP_VERSION} /usr/bin/php
+
+# Cypress testing support
+RUN sudo apt-get update 
+RUN sudo apt-get install -y xvfb 
+RUN sudo apt-get install -y xauth
+RUN sudo apt-get install -y libxtst6
+RUN sudo apt-get install -y libasound2
+RUN sudo apt-get install -y libxss1
+RUN sudo apt-get install -y libgconf-2-4 
+RUN sudo apt-get install -y libnotify-dev
+RUN sudo apt-get install -y libgbm-dev
+RUN sudo apt-get install -y libgtk-3-0
+RUN sudo apt-get install -y libgtk2.0
 
 # nvm environment variables
 RUN sudo mkdir -p /usr/local/nvm
