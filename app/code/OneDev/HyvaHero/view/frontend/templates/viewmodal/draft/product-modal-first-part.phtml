@@ -1,0 +1,48 @@
+<?php
+/**
+ * OneDev_AdamVarga
+ *
+ * Copyright © 2024 - OneDev_AdamVarga. All rights reserved.
+ * This file is part of a learning project created by Adam Varga for educational purposes.
+ */
+
+/** @var Escaper $escaper */
+/** @var ViewModelRegistry $viewModels */
+
+use Hyva\Theme\Model\ViewModelRegistry;
+use Hyva\Theme\ViewModel\Modal;
+use Magento\Framework\Escaper;
+
+$modalViewModel = $viewModels->require(Modal::class);
+
+// Construct the modal content
+$content = '<div id="hyva-modal-title">'
+    . $escaper->escapeHtml(__('Simple Modal')) . '</div>';
+
+// Add the confirm and close buttons
+$content .= '<div class="modal-buttons">'
+    . '<button @click="confirm()" type="button">'
+    . $escaper->escapeHtml(__('Confirm')) . '</button>'
+    . '<button @click="showModal = false" type="button">'
+    . $escaper->escapeHtml(__('Close')) . '</button>'
+    . '</div>';
+
+// Create the modal using the Modal view model and attach the content
+$modal = $modalViewModel->createModal()
+    ->withContent($content)
+    ->withAriaLabelledby('simple-modal');
+
+// Output the modal
+?>
+
+<!-- Button to open the modal -->
+<div x-data="{ showModal: false }">
+    <button @click="showModal = true">
+        <?= $escaper->escapeHtml(__('Open Simple Modal')) ?>
+    </button>
+
+    <!-- Modal content -->
+    <div x-show="showModal" x-transition>
+        <?= /** @noEscape */ $modal ?>
+    </div>
+</div>

@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:App/etc/routes.xsd">
+    <router id="standard">
+        <route id="tailwindhero_todo" frontName="tailwind-hero-todo">
+            <module name="OneDev_TailwindHero"/>
+        </route>
+
+        <route id="tailwindhero_solution" frontName="tailwind-hero-solution">
+            <module name="OneDev_TailwindHero"/>
+        </route>
+
+        <route id="windy" frontName="windy">
+            <module name="OneDev_TailwindHero"/>
+        </route>
+    </router>
+</config>

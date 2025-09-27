@@ -119,14 +119,15 @@ module.exports = hyvaModules.mergeTailwindConfig({
     }
   },
   plugins: [require('@tailwindcss/forms'), require('@tailwindcss/typography')],
-  // Examples for excluding patterns from purge
   content: [
-    // this theme's phtml and layout XML files
-    '../../**/*.phtml',
-    '../../*/layout/*.xml',
-    // parent theme in Vendor (if this is a child-theme)
+    // Hyva Default theme and modules
     '../../../../../../../vendor/hyva-themes/magento2-default-theme/**/*.phtml',
-    // app/code phtml files (if need tailwind classes from app/code modules)
-    //'../../../../../../../app/code/**/*.phtml',
+    '../../../../../../../vendor/hyva-themes/magento2-theme-module/**/*.phtml',
+
+    // App code
+    '../../../../../../../app/code/**/*.phtml',
+
+    // This theme
+    '../../**/*.phtml',
   ]
 });

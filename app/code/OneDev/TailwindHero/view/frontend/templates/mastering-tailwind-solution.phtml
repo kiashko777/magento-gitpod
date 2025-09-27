@@ -1,0 +1,178 @@
+<?php
+/**
+ * OneDev_AdamVarga
+ *
+ * Copyright © 2024 - OneDev_AdamVarga. All rights reserved.
+ * This file is part of a learning project created by Adam Varga for educational purposes.
+ */
+?>
+
+<h1 class="text-2xl font-bold text-center mb-6">Tailwind CSS Practice Tasks</h1>
+
+<!-- Task 1: Center Text with Background Color -->
+<div class="mb-6">
+    <div class="mt-5 mb-5">
+        <h2 class="text-xl font-semibold mb-6">Task 1: Center Text with Background Color</h2>
+        <p class="mb-6"><strong>Task:</strong> Center the text inside the div and apply a primary background color and white color for the text. Add some padding for spacing.</p>
+        <button onclick="toggleHint(1)" class="bg-primary text-white px-4 py-2 rounded mt-2">Show Hint</button>
+        <p id="hint-1" class="hint mt-2 text-gray-600 mb-6"><strong>Hint:</strong> Use <code>text-center</code> to center the text, and <code>bg-primary</code> to apply a primary background color.</p>
+    </div>
+
+    <hr class="mb-6 mt-6">
+    <!-- ToDo start -->
+        <div class="p-8 text-center bg-primary text-white">
+            Tailwind makes text centering easy!
+        </div>
+    <!-- ToDo end -->
+    <hr class="mb-6 mt-6">
+
+</div>
+
+<!-- Task 2: Responsive Grid Layout -->
+<div class="mb-6">
+    <div class="mt-5 mb-5">
+        <h2 class="text-xl font-semibold mb-6">Task 2: Responsive Grid Layout</h2>
+        <p class="mb-6">
+            <strong>Task:</strong> Create a responsive grid layout that displays two columns on small screens and stacks into a single column on extra small screens.
+            Ensure there is space between the grid items and add padding for extra spacing.
+            Finally, apply the primary background color to each of the boxes.
+        </p>
+        <button onclick="toggleHint(2)" class="bg-primary text-white px-4 py-2 rounded mt-2">Show Hint</button>
+        <p id="hint-2" class="hint mt-2 text-gray-600 mb-6"><strong>Hint:</strong> Use <code>grid-cols-1</code> for a single column and <code>sm:grid-cols-2</code> for two columns. Apply <code>gap-4</code> to add space.</p>
+    </div>
+
+    <hr class="mb-6 mt-6">
+    <!-- ToDo start -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div class="bg-green-500 p-10 text-white text-center">Item 1</div>
+            <div class="bg-green-500 p-10 text-white text-center">Item 2</div>
+        </div>
+    <!-- ToDo end -->
+    <hr class="mb-6 mt-6">
+</div>
+
+<!-- Task 3: Flexbox Layout with Alignment -->
+<div class="mb-6">
+    <div class="mt-5 mb-5">
+        <h2 class="text-xl font-semibold mb-6">Task 3: Flexbox Layout with Alignment</h2>
+        <p class="mb-6">
+            <strong>Task:</strong> Create a flexbox layout that aligns items horizontally and centers them both vertically and horizontally within the container. Add padding to the container and ensure the items have equal spacing.
+        </p>
+        <button onclick="toggleHint(3)" class="bg-primary text-white px-4 py-2 rounded mt-2">Show Hint</button>
+        <p id="hint-3" class="hint mt-2 text-gray-600 mb-6"><strong>Hint:</strong> Use <code>flex</code> for the layout, <code>justify-center</code> to center horizontally, and <code>items-center</code> for vertical alignment. Use <code>space-x-4</code> to add spacing between the items.</p>
+    </div>
+
+    <hr class="mb-6 mt-6">
+    <!-- ToDo start -->
+    <div class="flex justify-center items-center space-x-4 p-10">
+        <div class="bg-blue-500 text-white p-6 rounded">Item 1</div>
+        <div class="bg-blue-500 text-white p-6 rounded">Item 2</div>
+        <div class="bg-blue-500 text-white p-6 rounded">Item 3</div>
+    </div>
+    <!-- ToDo end -->
+    <hr class="mb-6 mt-6">
+</div>
+
+
+<!-- Task 4: Hover Effect on Text -->
+<div class="mb-6">
+    <div class="mt-5 mb-5">
+        <h2 class="text-xl font-semibold mb-6">Task 4: Hover Effect on a Text Element</h2>
+        <p class="mb-6">
+            <strong>Task:</strong> Create a text element that changes its color to <code>text-gray-400</code> when hovered. Additionally, ensure the cursor changes to a pointer on hover, and set the text to bold by default.
+        </p>
+        <button onclick="toggleHint(4)" class="bg-primary text-white px-4 py-2 rounded mt-2">Show Hint</button>
+        <p id="hint-4" class="hint mt-2 text-gray-600"><strong>Hint:</strong> Use <code>hover:text-gray-400</code> for the color change, and <code>cursor-pointer</code> to set the pointer on hover.</p>
+    </div>
+
+    <hr class="mb-6 mt-6">
+    <div class="p-6 mt-6 mb-6">
+        <!-- ToDo start -->
+        <p class="text-black font-bold cursor-pointer hover:text-gray-400">
+            Hover Me Text!
+        </p>
+        <!-- ToDo end -->
+    </div>
+    <hr>
+</div>
+
+<!-- Task 5: Hover Effect on a Button -->
+<div class="mb-6">
+    <div class="mt-5 mb-5">
+        <h2 class="text-xl font-semibold mb-6">Task 5: Hover Effect on a Button</h2>
+        <p class="mb-6">
+            <strong>Task:</strong> Create a button that changes its background color to <code>bg-green-500</code> when hovered. The button should have rounded corners, white text, and a smooth transition effect.
+        </p>
+        <button onclick="toggleHint(5)" class="bg-primary text-white px-4 py-2 rounded mt-2">Show Hint</button>
+        <p id="hint-5" class="hint mt-2 text-gray-600"><strong>Hint:</strong> Use <code>hover:bg-green-500</code> for the color change, and <code>transition duration-300</code> to apply the smooth transition effect.</p>
+    </div>
+
+    <hr class="mb-6 mt-6">
+    <div class="p-6 mt-6 mb-6">
+        <!-- ToDo start -->
+        <button class="bg-blue-500 text-white px-6 py-3 rounded-lg hover:bg-green-500 transition duration-300">
+            Hover Me Button!
+        </button>
+        <!-- ToDo end -->
+    </div>
+    <hr>
+</div>
+
+
+<!-- Task 6: Card with Shadow and Hover Scale Effect -->
+<div class="mb-6">
+    <div class="mt-5 mb-5">
+        <h2 class="text-xl font-semibold">Task 6: Card with Shadow and Rounded Border</h2>
+        <p class="mb-6"><strong>Task:</strong> Create a card that has a shadow-lg and rounded-lg border. So add some style to the headline and paragraph like <code>text-xl</code> and some margin between the text.</p>
+        <button onclick="toggleHint(6)" class="bg-primary text-white px-4 py-2 rounded mt-2">Show Hint</button>
+        <p id="hint-6" class="hint mt-2 text-gray-600"><strong>Hint:</strong> Use <code>shadow-lg</code> and <code>rounded-lg</code></p>
+    </div>
+
+    <hr class="mb-6 mt-6">
+    <div class="p-6 mt-6 mb-6">
+        <!-- ToDo start -->
+        <div class="bg-white shadow-lg p-10 rounded-lg">
+            <h3 class="font-bold text-xl">Card Title</h3>
+            <p class="mt-2">Card content goes here.</p>
+        </div>
+        <!-- ToDo end -->
+    </div>
+    <hr>
+</div>
+
+<!-- Task 7: Dark Mode Support -->
+<div class="mb-6">
+    <div class="mt-5 mb-5">
+        <h2 class="text-xl font-semibold mb-6">Task 7: Dark Mode Support</h2>
+        <p class="mb-6"><strong>TODO:</strong> Create a dark mode version of a section that changes the background and text colors when dark mode is enabled.</p>
+        <button onclick="toggleHint(7)" class="bg-primary text-white px-4 py-2 rounded mt-2">Show Hint</button>
+        <p id="hint-7" class="hint mt-2 text-gray-600"><strong>Hint:</strong> Use <code>dark:bg-[color]</code> and <code>dark:text-[color]</code> to style dark mode.</p>
+    </div>
+
+    <hr class="mb-6 mt-6">
+    <div class="p-6 mt-6 mb-6 dark">
+        <!-- ToDo start -->
+        <div class="bg-white p-6 rounded-lg dark:bg-gray-800 dark:text-white">
+            This section supports dark mode!
+        </div>
+        <!-- ToDo end -->
+    </div>
+    <hr>
+
+</div>
+
+
+<!-- Add JavaScript for toggling hints -->
+<script>
+    function toggleHint(taskNumber) {
+        const hint = document.getElementById(`hint-${taskNumber}`);
+        hint.style.display = hint.style.display === 'none' || hint.style.display === '' ? 'block' : 'none';
+    }
+</script>
+
+<style>
+    /* Hide hints by default */
+    .hint {
+        display: none;
+    }
+</style>

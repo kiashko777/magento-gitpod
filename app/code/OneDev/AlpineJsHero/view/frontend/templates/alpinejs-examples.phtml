@@ -1,0 +1,186 @@
+<?php
+/**
+ * OneDev_AdamVarga
+ *
+ * Copyright © 2024 - OneDev_AdamVarga. All rights reserved.
+ * This file is part of a learning project created by Adam Varga for educational purposes.
+ */
+?>
+
+<h1 class="text-2xl font-bold mb-6">AlpineJs Examples</h1>
+
+<div class="space-y-4">
+
+    <!-- Example 1 -->
+    <div class="p-4 bg-white shadow-sm rounded" x-data="{ count: 0 }">
+        <button class="bg-blue-500 text-white px-3 py-1 rounded" @click="count++">Increment</button>
+        <p class="mt-2">Count: <span x-text="count"></span></p>
+    </div>
+
+    <!-- Example 2 -->
+    <div class="p-4 bg-white shadow-sm rounded" x-data="{ open: false }">
+        <button class="bg-blue-500 text-white px-3 py-1 rounded" @click="open = !open">Toggle</button>
+        <div x-show="open" class="mt-2">This content is now visible.</div>
+    </div>
+
+    <!-- Example 3 -->
+    <div class="p-4 bg-white shadow-sm rounded" x-data="{ message: 'Hello Alpine!' }">
+        <input class="border border-gray-300 rounded w-full p-2" type="text" x-model="message"
+               placeholder="Type your message">
+        <p class="mt-2" x-text="message"></p>
+    </div>
+
+    <!-- Example 4 -->
+    <div class="p-4 bg-white shadow-sm rounded" x-data="{ items: ['Apple', 'Banana', 'Cherry'] }">
+        <ul class="list-disc list-inside">
+            <template x-for="item in items" :key="item">
+                <li x-text="item"></li>
+            </template>
+        </ul>
+    </div>
+
+    <!-- Example 5 -->
+    <div class="p-4 bg-white shadow-sm rounded" x-data="{ visible: false }">
+        <button class="bg-blue-500 text-white px-3 py-1 rounded" @click="visible = !visible">Toggle</button>
+        <p x-show="visible" class="mt-2">This is visible using x-show.</p>
+        <template x-if="visible">
+            <p>This is visible using x-if.</p>
+        </template>
+    </div>
+
+    <!-- Example 6 -->
+    <div class="p-4 bg-white shadow-sm rounded" x-data="{ showModal: false }">
+        <button class="bg-blue-500 text-white px-3 py-1 rounded" @click="showModal = true">Open Modal</button>
+        <div x-show="showModal" class="fixed inset-0 bg-gray-500 bg-opacity-75 flex justify-center items-center"
+             @click.away="showModal = false">
+            <div class="bg-white p-8 rounded shadow-lg" x-transition>
+                <p>Modal Content</p>
+                <button class="bg-red-500 text-white px-3 py-1 rounded mt-4" @click="showModal = false">Close</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Example 7 -->
+    <div class="p-4 bg-white shadow-sm rounded" x-data="{ tab: 'home' }">
+        <nav class="flex space-x-4">
+            <a href="#" @click.prevent="tab = 'home'" :class="{ 'font-bold': tab === 'home' }" class="text-blue-500">Home</a>
+            <a href="#" @click.prevent="tab = 'profile'" :class="{ 'font-bold': tab === 'profile' }"
+               class="text-blue-500">Profile</a>
+            <a href="#" @click.prevent="tab = 'settings'" :class="{ 'font-bold': tab === 'settings' }"
+               class="text-blue-500">Settings</a>
+        </nav>
+        <div x-show="tab === 'home'" class="mt-4">This is the home tab content.</div>
+        <div x-show="tab === 'profile'" class="mt-4">This is the profile tab content.</div>
+        <div x-show="tab === 'settings'" class="mt-4">This is the settings tab content.</div>
+    </div>
+
+    <!-- Example 8 -->
+    <div class="p-4 bg-white shadow-sm rounded" x-data="{ message: 'Hello World!' }">
+        <p x-text="message"></p>
+        <button class="bg-blue-500 text-white px-3 py-1 rounded mt-2" @click="message = 'Hello Alpine.js!'">Change
+            Message
+        </button>
+    </div>
+
+    <!-- Example 9 -->
+    <div class="p-4 bg-white shadow-sm rounded" x-data="{ name: '' }">
+        <input class="border border-gray-300 rounded w-full p-2" type="text" x-model="name"
+               placeholder="Enter your name">
+        <p class="mt-2">Hello, <span x-text="name"></span>!</p>
+    </div>
+
+    <!-- Example 10 -->
+    <div class="p-4 bg-white shadow-sm rounded" x-data="{ open: false }">
+        <button class="bg-blue-500 text-white px-3 py-1 rounded" @click="open = !open">Toggle Panel</button>
+        <div x-show="open" x-transition class="mt-2">
+            <p>This panel fades in and out smoothly!</p>
+        </div>
+    </div>
+
+    <!-- Example 11 -->
+    <div class="p-4 bg-white shadow-sm rounded" x-data="{ parentMessage: '' }">
+        <input class="border border-gray-300 rounded w-full p-2" x-model="parentMessage" placeholder="Type a message">
+        <div x-data="{ childMessage: '' }">
+            <p class="mt-2">Parent Message: <span x-text="parentMessage"></span></p>
+            <p>Child Message: <span x-text="childMessage"></span></p>
+        </div>
+    </div>
+
+    <!-- Example 12 -->
+    <div class="p-4 bg-white shadow-sm rounded" x-data="{ selected: 'option1' }">
+        <label><input type="radio" x-model="selected" value="option1"> Option 1</label>
+        <label class="ml-4"><input type="radio" x-model="selected" value="option2"> Option 2</label>
+        <p class="mt-2">Selected: <span x-text="selected"></span></p>
+    </div>
+
+    <!-- Example 13 -->
+    <div class="p-4 bg-white shadow-sm rounded" x-data="{ count: 0 }" x-init="console.log('Component initialized')">
+        <button class="bg-blue-500 text-white px-3 py-1 rounded" @click="count++">Click me</button>
+        <p x-effect="console.log('Count updated: ' + count)" class="mt-2">Count: <span x-text="count"></span></p>
+    </div>
+
+    <!-- Example 14 -->
+    <script>
+        document.addEventListener('alpine:init', () => {
+            Alpine.store('cart', {
+                items: []
+            });
+        });
+    </script>
+    <div class="p-4 bg-white shadow-sm rounded" x-data>
+        <button class="bg-blue-500 text-white px-3 py-1 rounded" @click="$store.cart.items.push('Apple')">Add Apple
+        </button>
+        <p class="mt-2">Cart: <span x-text="$store.cart.items.join(', ')"></span></p>
+    </div>
+
+    <!-- Example 15 -->
+    <div class="p-4 bg-white shadow-sm rounded" x-data="{ keyPressed: '' }">
+        <input class="border border-gray-300 rounded w-full p-2" type="text" @keydown="keyPressed = $event.key"
+               placeholder="Press any key">
+        <p class="mt-2">Last key pressed: <span x-text="keyPressed"></span></p>
+    </div>
+
+    <!-- Example 16 -->
+    <div class="p-4 bg-white shadow-sm rounded" x-data="{ color: 'blue' }">
+        <button class="bg-blue-500 text-white px-3 py-1 rounded" @click="$el.style.backgroundColor = color">Change my
+            background color
+        </button>
+    </div>
+
+    <!-- Example 17 -->
+    <div class="p-4 bg-white shadow-sm rounded" x-data="{ text: 'Loading...' }">
+        <button class="bg-blue-500 text-white px-3 py-1 rounded"
+                @click="text = 'Updated'; $nextTick(() => alert('Text is now updated!'))">Update Text
+        </button>
+        <p class="mt-2" x-text="text"></p>
+    </div>
+
+    <!-- Example 18 -->
+    <div class="p-4 bg-white shadow-sm rounded" x-data="{ focusInput() { this.$refs.input.focus() } }">
+        <input x-ref="input" type="text" class="border border-gray-300 rounded w-full p-2"
+               placeholder="Click the button to focus me">
+        <button class="bg-blue-500 text-white px-3 py-1 rounded mt-2" @click="focusInput()">Focus Input</button>
+    </div>
+
+    <!-- Example 19 -->
+    <div class="p-4 bg-white shadow-sm rounded" x-data x-cloak>
+        <p>This paragraph will not be visible until Alpine has fully initialized.</p>
+    </div>
+
+    <!-- Example 20 -->
+    <div class="p-4 bg-white shadow-sm rounded" x-data="spreadData">
+        <input type="text" x-spread="inputAttributes" class="border border-gray-300 rounded w-full p-2">
+    </div>
+
+    <script>
+        function spreadData() {
+            return {
+                inputAttributes: {
+                    'x-model': 'value',
+                    ':placeholder': '"Type something..."'
+                },
+                value: ''
+            }
+        }
+    </script>
+</div>

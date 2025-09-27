@@ -1,0 +1,78 @@
+<?php
+/**
+ * OneDev_AdamVarga
+ *
+ * Copyright © 2024 - OneDev_AdamVarga. All rights reserved.
+ * This file is part of a learning project created by Adam Varga for educational purposes.
+ */
+
+/** @var Escaper $escaper */
+/** @var ViewModelRegistry $viewModels */
+
+use Hyva\Theme\Model\ViewModelRegistry;
+use Hyva\Theme\ViewModel\Modal;
+use Magento\Framework\Escaper;
+use Magento\Catalog\Helper\Image;
+use Magento\Framework\Pricing\Helper\Data as PriceHelper;
+use OneDev\HyvaHero\ViewModel\ProductList;
+
+$modalViewModel = $viewModels->require(Modal::class);
+$productListViewModel = $viewModels->require(ProductList::class);
+
+// Fetch the products
+$products = $productListViewModel->getProducts();
+$imageHelper = $this->helper(Image::class);
+$priceHelper = $this->helper(PriceHelper::class);
+
+// Construct the modal content
+$content = '<div id="hyva-modal-title" class="text-xl font-semibold mb-4">'
+    . $escaper->escapeHtml(__('Featured product')) . '</div>';
+
+$content .= '<div class="product-list grid grid-cols-1 md:grid-cols-2 gap-4">';
+
+// Loop through the products and add them to the modal
+foreach ($products as $product) {
+    $imageUrl = $imageHelper->init($product, 'product_page_image_small')
+        ->setImageFile($product->getFile())
+        ->getUrl();
+
+    $content .= '<div class="p-4 bg-white shadow-md rounded-lg flex items-center space-x-4">'
+        . '<img src="' . $escaper->escapeUrl($imageUrl) . '" alt="' . $escaper->escapeHtml($product->getName()) . '" class="w-16 h-16 rounded-md object-cover">'
+        . '<div>'
+        . '<h3 class="font-bold text-lg">' . $escaper->escapeHtml($product->getName()) . '</h3>'
+        . '<p class="text-gray-500">' . /** @noEscape */ $priceHelper->currency($product->getPrice(), true, true) . '</li>' . '</p>'
+        . '</div>'
+        . '</div>';
+}
+
+// Close the list
+$content .= '</div>';
+
+// Add the confirm and close buttons
+$content .= '<div class="modal-buttons mt-6 flex justify-between gap-2">'
+    . '<button @click="confirm()" type="button" class="btn bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded-md">'
+    . $escaper->escapeHtml(__('Confirm')) . '</button>'
+    . '<button @click="showModal = false" type="button" class="btn bg-gray-200 hover:bg-gray-300 text-gray-700 py-2 px-4 rounded-md">'
+    . $escaper->escapeHtml(__('Close')) . '</button>'
+    . '</div>';
+
+// Create the modal using the Modal view model and attach the content
+$modal = $modalViewModel->createModal()
+    ->withContent($content)
+    ->withAriaLabelledby('featured-product-modal')
+    ->addDialogClass('m-12'); // Tailwind dialog class for spacing
+
+// Output the modal
+?>
+
+<!-- Button to open the modal -->
+<div x-data="{ showModal: false }">
+    <button @click="showModal = true" class="btn bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded-md">
+        <?= $escaper->escapeHtml(__('Open Featured Product')) ?>
+    </button>
+
+    <!-- Modal content -->
+    <div x-show="showModal" x-transition>
+        <?= /** @noEscape */ $modal ?>
+    </div>
+</div>

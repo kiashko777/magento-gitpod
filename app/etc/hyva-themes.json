@@ -1,7 +1,16 @@
 {
     "extensions": [
         {
+            "src": "app\/code\/Develodesign\/HyvaCmsWidgets"
+        },
+        {
+            "src": "app\/code\/Develodesign\/Forum"
+        },
+        {
             "src": "vendor\/hyva-themes\/magento2-theme-module\/src"
+        },
+        {
+            "src": "vendor\/mollie\/magento2-hyva-compatibility\/src\/Mollie_HyvaCompatibility"
         }
     ]
 }

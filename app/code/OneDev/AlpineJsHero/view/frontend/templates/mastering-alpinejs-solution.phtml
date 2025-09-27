@@ -1,0 +1,199 @@
+<?php
+/**
+ * OneDev_AdamVarga
+ *
+ * Copyright © 2024 - OneDev_AdamVarga. All rights reserved.
+ * This file is part of a learning project created by Adam Varga for educational purposes.
+ */
+?>
+
+<h1 class="text-2xl font-bold text-center mb-6">Alpine.js Practice Tasks</h1>
+
+<!-- Task 1: Increment Button -->
+<div class="mb-6">
+    <div class="mt-5 mb-5">
+        <h2 class="text-xl font-semibold mb-6">Task 1: Increment Button</h2>
+        <p class="mb-6"><strong>Task:</strong> Create a button that increments a count when clicked. Display the updated count below the button.</p>
+        <button onclick="toggleHint(1)" class="bg-blue-500 text-white px-4 py-2 rounded mt-2">Show Hint</button>
+        <p id="hint-1" class="hint mt-2 text-gray-600"><strong>Hint:</strong> Use <code>@click</code> and <code>x-text</code> to bind the count to the button and display.</p>
+    </div>
+
+    <hr class="mb-6 mt-6">
+    <!-- ToDo start -->
+    <div x-data="{ count: 0 }" class="p-4 border border-gray-300 rounded">
+        <button class="bg-blue-500 text-white px-4 py-2 rounded" @click="count++">Increment</button>
+        <p class="mt-2">Count: <span x-text="count"></span></p>
+    </div>
+    <!-- ToDo end -->
+    <hr class="mb-6 mt-6">
+</div>
+
+<!-- Task 2: Toggle Content Visibility -->
+<div class="mb-6">
+    <div class="mt-5 mb-5">
+        <h2 class="text-xl font-semibold mb-6">Task 2: Toggle Content Visibility</h2>
+        <p class="mb-6"><strong>Task:</strong> Create a button that toggles the visibility of a div containing text. The text should only be visible when the button is clicked.</p>
+        <button onclick="toggleHint(2)" class="bg-blue-500 text-white px-4 py-2 rounded mt-2">Show Hint</button>
+        <p id="hint-2" class="hint mt-2 text-gray-600"><strong>Hint:</strong> Use <code>@click</code> and <code>x-show</code> to manage the visibility of the text.</p>
+    </div>
+
+    <hr class="mb-6 mt-6">
+    <!-- ToDo start -->
+    <div x-data="{ open: false }" class="p-4 border border-gray-300 rounded">
+        <button class="bg-blue-500 text-white px-4 py-2 rounded" @click="open = !open">Toggle Content</button>
+        <div class="mt-2" x-show="open">This content should be toggled.</div>
+    </div>
+    <!-- ToDo end -->
+    <hr class="mb-6 mt-6">
+</div>
+
+<!-- Task 3: Two-Way Data Binding -->
+<div class="mb-6">
+    <div class="mt-5 mb-5">
+        <h2 class="text-xl font-semibold mb-6">Task 3: Two-Way Data Binding</h2>
+        <p class="mb-6"><strong>Task:</strong> Create an input field and display the entered text in a paragraph below the input. The paragraph should update live as the user types.</p>
+        <button onclick="toggleHint(3)" class="bg-blue-500 text-white px-4 py-2 rounded mt-2">Show Hint</button>
+        <p id="hint-3" class="hint mt-2 text-gray-600"><strong>Hint:</strong> Use <code>x-model</code> for two-way binding between the input and paragraph text.</p>
+    </div>
+
+    <hr class="mb-6 mt-6">
+    <!-- ToDo start -->
+    <div x-data="{ message: '' }" class="p-4 border border-gray-300 rounded">
+        <input type="text" x-model="message" class="border border-gray-300 rounded p-2 w-full">
+        <p class="mt-2">You typed: <span x-text="message"></span></p>
+    </div>
+    <!-- ToDo end -->
+    <hr class="mb-6 mt-6">
+</div>
+
+<!-- Task 4: Loop Through Items -->
+<div class="mb-6">
+    <div class="mt-5 mb-5">
+        <h2 class="text-xl font-semibold mb-6">Task 4: Loop Through Items</h2>
+        <p class="mb-6"><strong>Task:</strong> Display a list of items stored in an array. Loop through the array and display each item inside an unordered list.</p>
+        <button onclick="toggleHint(4)" class="bg-blue-500 text-white px-4 py-2 rounded mt-2">Show Hint</button>
+        <p id="hint-4" class="hint mt-2 text-gray-600"><strong>Hint:</strong> Use <code>x-for</code> to loop through the array of items.</p>
+    </div>
+
+    <hr class="mb-6 mt-6">
+    <!-- ToDo start -->
+    <div x-data="{ items: ['Apple', 'Banana', 'Cherry'] }" class="p-4 border border-gray-300 rounded">
+        <ul class="list-disc pl-4">
+            <template x-for="item in items" :key="item">
+                <li x-text="item"></li>
+            </template>
+        </ul>
+    </div>
+    <!-- ToDo end -->
+    <hr class="mb-6 mt-6">
+</div>
+
+<!-- Task 5: Modal Popup -->
+<div class="mb-6">
+    <div class="mt-5 mb-5">
+        <h2 class="text-xl font-semibold mb-6">Task 5: Modal Popup</h2>
+        <p class="mb-6"><strong>Task:</strong> Create a button that opens a modal. The modal should contain some text and a close button. Clicking the close button should hide the modal.</p>
+        <button onclick="toggleHint(5)" class="bg-blue-500 text-white px-4 py-2 rounded mt-2">Show Hint</button>
+        <p id="hint-5" class="hint mt-2 text-gray-600"><strong>Hint:</strong> Use <code>x-show</code> for toggling modal visibility and <code>@click</code> to close the modal.</p>
+    </div>
+
+    <hr class="mb-6 mt-6">
+    <!-- ToDo start -->
+    <div x-data="{ showModal: false }" class="p-4 border border-gray-300 rounded">
+        <button class="bg-blue-500 text-white px-4 py-2 rounded" @click="showModal = true">Open Modal</button>
+        <div x-show="showModal" class="fixed inset-0 bg-gray-500 bg-opacity-75 flex justify-center items-center">
+            <div class="bg-white p-6 rounded shadow-lg">
+                <p>Modal Content</p>
+                <button class="mt-4 bg-red-500 text-white px-4 py-2 rounded" @click="showModal = false">Close Modal</button>
+            </div>
+        </div>
+    </div>
+    <!-- ToDo end -->
+    <hr class="mb-6 mt-6">
+</div>
+
+<!-- Task 6: Tabs Component -->
+<div class="mb-6">
+    <div class="mt-5 mb-5">
+        <h2 class="text-xl font-semibold mb-6">Task 6: Tabs Component</h2>
+        <p class="mb-6"><strong>Task:</strong> Create a simple tabs component with three tabs: "Home", "Profile", and "Settings". Clicking a tab should display the respective content below the tabs.</p>
+        <button onclick="toggleHint(6)" class="bg-blue-500 text-white px-4 py-2 rounded mt-2">Show Hint</button>
+        <p id="hint-6" class="hint mt-2 text-gray-600"><strong>Hint:</strong> Use <code>x-show</code> and <code>@click</code> to toggle between different tab content.</p>
+    </div>
+
+    <hr class="mb-6 mt-6">
+    <!-- ToDo start -->
+    <div x-data="{ tab: 'home' }" class="p-4 border border-gray-300 rounded">
+        <nav class="flex space-x-4">
+            <a href="#" @click.prevent="tab = 'home'" :class="{ 'font-bold': tab === 'home' }" class="cursor-pointer">Home</a>
+            <a href="#" @click.prevent="tab = 'profile'" :class="{ 'font-bold': tab === 'profile' }" class="cursor-pointer">Profile</a>
+            <a href="#" @click.prevent="tab = 'settings'" :class="{ 'font-bold': tab === 'settings' }" class="cursor-pointer">Settings</a>
+        </nav>
+        <div class="mt-4" x-show="tab === 'home'">Home content</div>
+        <div class="mt-4" x-show="tab === 'profile'">Profile content</div>
+        <div class="mt-4" x-show="tab === 'settings'">Settings content</div>
+    </div>
+    <!-- ToDo end -->
+    <hr class="mb-6 mt-6">
+</div>
+
+<!-- Task 7: Counter with Lifecycle Hooks -->
+<div class="mb-6">
+    <div class="mt-5 mb-5">
+        <h2 class="text-xl font-semibold mb-6">Task 7: Counter with Lifecycle Hooks</h2>
+        <p class="mb-6"><strong>Task:</strong> Create a counter that initializes to 0 and increments every time a button is clicked. Log a message to the console each time the counter is updated.</p>
+        <button onclick="toggleHint(7)" class="bg-blue-500 text-white px-4 py-2 rounded mt-2">Show Hint</button>
+        <p id="hint-7" class="hint mt-2 text-gray-600"><strong>Hint:</strong> Use <code>x-init</code> to initialize the counter and <code>x-effect</code> to log messages when the counter changes.</p>
+    </div>
+
+    <hr class="mb-6 mt-6">
+    <!-- ToDo start -->
+    <div x-data="{ count: 0 }" x-init="console.log('Component initialized')" class="p-4 border border-gray-300 rounded">
+        <button class="bg-blue-500 text-white px-4 py-2 rounded" @click="count++">Increment</button>
+        <p class="mt-2">Count: <span x-text="count"></span></p>
+        <div x-effect="console.log('Count updated: ' + count)"></div>
+    </div>
+    <!-- ToDo end -->
+    <hr class="mb-6 mt-6">
+</div>
+
+<!-- Task 8: Shopping Cart with Global State -->
+<div class="mb-6">
+    <div class="mt-5 mb-5">
+        <h2 class="text-xl font-semibold mb-6">Task 8: Shopping Cart with Global State</h2>
+        <p class="mb-6"><strong>Task:</strong> Create a global shopping cart using Alpine.js's store. Add an "Add to Cart" button that pushes items to a cart. Display the total items in the cart below the button so the cart items in the console.log with <code>x-effect</code></p>
+        <button onclick="toggleHint(8)" class="bg-blue-500 text-white px-4 py-2 rounded mt-2">Show Hint</button>
+        <p id="hint-8" class="hint mt-2 text-gray-600"><strong>Hint:</strong> Use <code>Alpine.store()</code> for global state and <code>$store</code> to access the cart.</p>
+    </div>
+
+    <hr class="mb-6 mt-6">
+    <!-- ToDo start -->
+    <script>
+        document.addEventListener('alpine:init', () => {
+            Alpine.store('cart', { items: [] });
+        });
+    </script>
+
+    <div x-data class="p-4 border border-gray-300 rounded">
+        <button class="bg-blue-500 text-white px-4 py-2 rounded" @click="$store.cart.items.push('Apple')">Add to Cart</button>
+        <p class="mt-2">Items in cart: <span x-text="$store.cart.items.length"></span></p>
+        <div x-effect="console.log('Cart item: ' + $store.cart.items)"></div>
+    </div>
+    <!-- ToDo end -->
+    <hr class="mb-6 mt-6">
+</div>
+
+<!-- JavaScript for Hint Toggle -->
+<script>
+    function toggleHint(taskNumber) {
+        const hint = document.getElementById(`hint-${taskNumber}`);
+        hint.style.display = hint.style.display === 'none' || hint.style.display === '' ? 'block' : 'none';
+    }
+</script>
+
+<!-- Hide hints by default -->
+<style>
+    .hint {
+        display: none;
+    }
+</style>

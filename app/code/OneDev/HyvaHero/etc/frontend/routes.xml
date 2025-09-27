@@ -1,0 +1,28 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:App/etc/routes.xsd">
+    <router id="standard">
+        <route id="hyvahero_icons_examples" frontName="hyva-hero-icons-examples">
+            <module name="OneDev_HyvaHero"/>
+        </route>
+
+        <route id="hyvahero_icons_solution" frontName="hyva-hero-icons-solution">
+            <module name="OneDev_HyvaHero"/>
+        </route>
+
+        <route id="hyvahero_icons_todo" frontName="hyva-hero-icons-todo">
+            <module name="OneDev_HyvaHero"/>
+        </route>
+
+        <route id="hyvahero_viewmodal_product_modal" frontName="hyva-hero-viewmodal-product-modal">
+            <module name="OneDev_HyvaHero"/>
+        </route>
+
+        <route id="hyvahero_hyvaobject_todo" frontName="hyva-hero-hyvaobject-todo">
+            <module name="OneDev_HyvaHero"/>
+        </route>
+
+        <route id="hyvahero_hyvaobject_solution" frontName="hyva-hero-hyvaobject-solution">
+            <module name="OneDev_HyvaHero"/>
+        </route>
+    </router>
+</config>

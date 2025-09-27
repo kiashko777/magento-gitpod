@@ -1,0 +1,104 @@
+<?php
+/**
+ * OneDev_AdamVarga
+ *
+ * Copyright © 2024 - OneDev_AdamVarga. All rights reserved.
+ * This file is part of a learning project created by Adam Varga for educational purposes.
+ */
+
+/**
+ * This test shows how to set and get cookies using window.hyva
+ */
+?>
+
+<script>
+    // Practical test for setting and getting cookies
+    document.addEventListener('DOMContentLoaded', function() {
+        const cookieName = 'test_cookie';
+        const cookieValue = 'test';
+        const expiryDays = 1;
+
+        // ToDo.: Set the cookie using hyva.setCookie
+
+
+        // ToDo.: Get and display the cookie value in the console.log
+
+
+        // ToDo.: Display the cookie value in a div with the ID cookie-result
+
+    });
+</script>
+
+<div class="p-6 max-w-md mx-auto bg-white rounded-xl shadow-md space-y-4">
+    <h3 class="text-lg font-semibold text-gray-800">Cookie Test</h3>
+    <p class="text-gray-600">This test demonstrates how to set and retrieve a cookie value using <code>hyva.setCookie</code> and <code>hyva.getCookie</code>.</p>
+    <p class="text-gray-800">The test cookie value is: <span id="cookie-result" class="font-bold">Loading...</span></p>
+</div>
+
+
+<?php
+/**
+ * This test demonstrates how to work with local storage using hyva.getBrowserStorage
+ */
+?>
+
+<script>
+    // Practical test for working with browser storage
+    document.addEventListener('DOMContentLoaded', function() {
+        // ToDo.: Get the actually browserStorage using hyva and pass this to browserStorage variable
+        const browserStorage = '';
+
+        if (browserStorage) {
+            // ToDo.: Store a value in browser storage
+
+
+            // ToDo.: Retrieve and pass the stored value to the variable 'storedPreference' and display this value within the container with the ID: storage-result
+            const storedPreference = '';
+
+
+        } else {
+            // ToDo.: Retrieve 'Storage Unavailable' text within the container with the ID storage-result, if the browserStorage is not available
+
+        }
+
+        // ToDo.: Optional: Remove the previous stored value on button click and write the text 'Cleared' within the container with the ID: storage-result
+        document.getElementById('clear-storage').addEventListener('click', function() {
+            if (browserStorage) {
+
+            }
+        });
+    });
+</script>
+
+<div class="p-6 max-w-md mx-auto bg-white rounded-xl shadow-md space-y-4 mt-6">
+    <h3 class="text-lg font-semibold text-gray-800">Local Storage Test</h3>
+    <p class="text-gray-600">This test shows how to use browser storage using <code>hyva.getBrowserStorage</code>. It saves and retrieves a user preference.</p>
+    <p class="text-gray-800">The stored user preference is: <span id="storage-result" class="font-bold">Loading...</span></p>
+    <button id="clear-storage" class="mt-3 bg-red-500 text-white font-bold py-2 px-4 rounded-md hover:bg-red-600">
+        Clear Storage
+    </button>
+</div>
+
+<?php
+/**
+ * This test demonstrates price formatting using hyva.formatPrice
+ */
+?>
+
+<script>
+    // Practical test for formatting prices
+    document.addEventListener('DOMContentLoaded', function() {
+        const price = 199.99;
+        // ToDo.: Format the price with hyva and pass this to the variable formattedPrice
+        const formattedPrice = '';
+
+        // ToDo.:  Display this formatted price in a div with the class price-result
+
+    });
+</script>
+
+<div class="p-6 max-w-md mx-auto bg-white rounded-xl shadow-md space-y-4 mt-6">
+    <h3 class="text-lg font-semibold text-gray-800">Price Formatting Test</h3>
+    <p class="text-gray-600">This test demonstrates how to format a price using <code>hyva.formatPrice</code> with currency and sign formatting.</p>
+    <p class="text-gray-800">The formatted price is: <span id="price-result" class="font-bold">Loading...</span></p>
+</div>

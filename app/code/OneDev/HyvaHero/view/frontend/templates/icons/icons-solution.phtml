@@ -1,0 +1,96 @@
+<?php
+/**
+ * OneDev_AdamVarga
+ *
+ * Copyright © 2024 - OneDev_AdamVarga. All rights reserved.
+ * This file is part of a learning project created by Adam Varga for educational purposes.
+ */
+
+/** @var Template $block */
+/** @var Escaper $escaper */
+/** @var HeroiconsSolid $heroiconsSolid */
+/** @var HeroiconsOutline $heroiconsOutline */
+
+/** @var ViewModelRegistry $viewModels */
+
+use Hyva\Theme\Model\ViewModelRegistry;
+use Hyva\Theme\ViewModel\HeroiconsSolid;
+use Hyva\Theme\ViewModel\HeroiconsOutline;
+use Magento\Framework\View\Element\Template;
+use Magento\Framework\Escaper;
+
+$heroiconsOutline = $viewModels->require(HeroiconsOutline::class);
+$heroiconsSolid = $viewModels->require(HeroiconsSolid::class);
+?>
+
+<div class="p-8 space-y-16">
+    <!-- Section: Basic Icon Rendering -->
+    <div class="space-y-4">
+        <h2 class="text-2xl font-semibold">Basic Icon Rendering</h2>
+        <p>In this task, you need to display two different Heroicons: a solid checkmark <code>(code: check)</code> and an
+            outline star <code>(code: star)</code>. The solid
+            icon should be green <code>text-green-500</code>, while the outline icon should be blue
+            <code>text-blue-500</code>.
+            Both icons should change to a darker shade <code>text-green-700</code> and <code>text-blue-700</code> when
+            hovered over.</p>
+        <div class="flex space-x-4">
+            <!-- Render a solid check icon -->
+            <div class="flex flex-col items-center">
+                <!-- ToDo start -->
+                <?= $heroiconsSolid->renderHtml('check', 'w-12 h-12 text-green-500 hover:text-green-700') ?>
+                <!-- ToDo end -->
+                <span class="text-sm mt-2">Solid Check</span>
+            </div>
+
+            <!-- Render an outline star icon -->
+            <div class="flex flex-col items-center">
+                <!-- ToDo start -->
+                <?= $heroiconsOutline->renderHtml('star', 'w-12 h-12 text-blue-500 hover:text-blue-700') ?>
+                <!-- ToDo end -->
+                <span class="text-sm mt-2">Outline Star</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Section: Dynamic Icon Toggling -->
+    <div class="space-y-4" x-data="{ playing: false }">
+        <h2 class="text-2xl font-semibold">Dynamic Icon Toggling with Alpine.js</h2>
+        <p>In this task, create a button that toggles between a play <code>(code: play)</code> and pause <code>(code: pause)</code> icon when clicked. Use Alpine.js to handle the state change and Tailwind CSS for the transition effect.</p>
+        <!-- ToDo start -->
+        <button @click="playing = !playing" class="focus:outline-none flex items-center space-x-2">
+            <span x-show="!playing">
+                <?= $heroiconsSolid->renderHtml('play', 'w-12 h-12 text-blue-500 hover:text-blue-700 transition') ?>
+            </span>
+            <span x-show="playing" x-cloak>
+                <?= $heroiconsSolid->renderHtml('pause', 'w-12 h-12 text-red-500 hover:text-red-700 transition') ?>
+            </span>
+            <span class="text-lg" x-text="playing ? 'Pause' : 'Play'"></span>
+        </button>
+        <!-- ToDo end -->
+    </div>
+
+    <!-- Section: Combining Icons with Buttons -->
+    <div class="space-y-4">
+        <h2 class="text-2xl font-semibold">Combining Icons with Buttons for Interactions</h2>
+        <p>In this task, you need to create two buttons with icons and text. The first button will have a shopping cart icon <code>(code: shopping-cart)</code>, and the second button will have a user icon <code>(code: user)</code> followed by a right arrow icon <code>(code: arrow-right)</code>.</p>
+        <div class="space-y-2">
+            <!-- Button with shopping cart icon -->
+            <!-- ToDo start -->
+            <button class="bg-blue-500 text-white px-4 py-2 rounded flex items-center space-x-2 hover:bg-blue-600 transition">
+                <?= $heroiconsSolid->renderHtml('shopping-cart', 'w-5 h-5') ?>
+                <span>Add to Cart</span>
+            </button>
+            <!-- ToDo end -->
+
+            <!-- Button with user and arrow icons -->
+            <!-- ToDo start -->
+            <button class="bg-green-500 text-white px-4 py-2 rounded flex items-center space-x-2 hover:bg-green-600 transition">
+                <?= $heroiconsSolid->renderHtml('user', 'w-5 h-5') ?>
+                <span>User Profile</span>
+                <?= $heroiconsSolid->renderHtml('arrow-right', 'w-5 h-5') ?>
+            </button>
+            <!-- ToDo end -->
+        </div>
+    </div>
+
+</div>

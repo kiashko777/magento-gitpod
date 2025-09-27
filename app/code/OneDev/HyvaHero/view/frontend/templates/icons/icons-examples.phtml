@@ -1,0 +1,145 @@
+<?php
+/**
+ * OneDev_AdamVarga
+ *
+ * Copyright © 2024 - OneDev_AdamVarga. All rights reserved.
+ * This file is part of a learning project created by Adam Varga for educational purposes.
+ */
+
+/** @var Template $block */
+/** @var Escaper $escaper */
+/** @var HeroiconsSolid $heroiconsSolid */
+/** @var HeroiconsOutline $heroiconsOutline */
+
+/** @var ViewModelRegistry $viewModels */
+
+use Hyva\Theme\Model\ViewModelRegistry;
+use Hyva\Theme\ViewModel\HeroiconsSolid;
+use Hyva\Theme\ViewModel\HeroiconsOutline;
+use Magento\Framework\View\Element\Template;
+use Magento\Framework\Escaper;
+
+$heroiconsOutline = $viewModels->require(HeroiconsOutline::class);
+$heroiconsSolid = $viewModels->require(HeroiconsSolid::class);
+?>
+
+<div class="p-8 space-y-16">
+    <!-- Section: Basic Icon Rendering -->
+    <div class="space-y-4 mt-8 mb-8">
+        <h2 class="text-2xl font-semibold">Basic Icon Rendering</h2>
+        <div class="flex space-x-4">
+            <!-- Render a solid arrow icon -->
+            <div class="flex flex-col items-center">
+                <?= $heroiconsSolid->arrowUpHtml('w-8 h-8 text-green-500') ?>
+                <span class="text-sm mt-2">Solid Arrow Up</span>
+            </div>
+
+            <!-- Render an outline star icon -->
+            <div class="flex flex-col items-center">
+                <?= $heroiconsOutline->starHtml('w-8 h-8 text-yellow-500') ?>
+                <span class="text-sm mt-2">Outline Star</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Section: Custom Icon Set Example -->
+    <div class="space-y-4 mt-8 mb-8">
+        <h2 class="text-2xl font-semibold">Custom Icon Set Example</h2>
+        <p>Showing custom icons with Tailwind utility classes applied.</p>
+        <div class="flex space-x-4">
+            <!-- Custom colored shopping cart icon -->
+            <div class="flex flex-col items-center">
+                <?= $heroiconsSolid->shoppingCartHtml('w-10 h-10 text-blue-600 hover:text-blue-800 transition') ?>
+                <span class="text-sm mt-2">Solid Shopping Cart</span>
+            </div>
+
+            <!-- Custom sized outline heart icon -->
+            <div class="flex flex-col items-center">
+                <?= $heroiconsOutline->heartHtml('w-12 h-12 text-red-500 hover:text-red-700 transition') ?>
+                <span class="text-sm mt-2">Outline Heart</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Section: Dynamic Icon with Alpine.js -->
+    <div x-data="{ liked: false }" class="space-y-4 mt-8 mb-8">
+        <h2 class="text-2xl font-semibold">Dynamic Icon with Alpine.js</h2>
+        <p>Click the heart icon to toggle between liked and unliked states.</p>
+        <div class="flex items-center space-x-4">
+            <!-- Toggle heart icon using Alpine.js -->
+            <button @click="liked = !liked" class="focus:outline-none">
+                <?= $heroiconsOutline->renderHtml('heart', 'w-12 h-12 text-gray-400 hover:text-gray-600 transition', 24, 24, [
+                    'x-show' => '!liked',
+                    'x-cloak' => true
+                ]) ?>
+                <?= $heroiconsSolid->renderHtml('heart', 'w-12 h-12 text-red-500 hover:text-red-700 transition', 24, 24, [
+                    'x-show' => 'liked',
+                    'x-cloak' => true
+                ]) ?>
+            </button>
+            <span class="text-lg" x-text="liked ? 'Liked!' : 'Not Liked'"></span>
+        </div>
+    </div>
+
+    <!-- Section: Icon with Custom Attributes for Alpine.js -->
+    <div class="space-y-4 mt-8 mb-8">
+        <h2 class="text-2xl font-semibold">Icons with Alpine.js Custom Attributes</h2>
+        <p>Change the icon dynamically with Alpine.js conditions.</p>
+        <div x-data="{ open: false }" class="flex items-center space-x-4">
+            <button @click="open = !open" class="focus:outline-none">
+                <?= $heroiconsOutline->renderHtml('menu', 'w-12 h-12 text-blue-500', 24, 24, [
+                    'x-show' => '!open',
+                    'x-cloak' => true
+                ]) ?>
+                <?= $heroiconsSolid->renderHtml('x', 'w-12 h-12 text-red-500', 24, 24, [
+                    'x-show' => 'open',
+                    'x-cloak' => true
+                ]) ?>
+            </button>
+            <span class="text-lg" x-text="open ? 'Menu Open' : 'Menu Closed'"></span>
+        </div>
+    </div>
+
+    <!-- Section: Combining Multiple Icons in a Button -->
+    <div class="space-y-4 mt-8 mb-8">
+        <h2 class="text-2xl font-semibold">Combining Icons in Buttons</h2>
+        <p>Use icons as part of button design to enhance the user interface.</p>
+        <div class="space-y-2">
+            <!-- Button with shopping cart icon -->
+            <button
+                class="bg-blue-500 text-white px-4 py-2 rounded flex items-center space-x-2 hover:bg-blue-600 transition">
+                <?= $heroiconsSolid->shoppingCartHtml('w-5 h-5') ?>
+                <span>Add to Cart</span>
+            </button>
+
+            <!-- Button with user and arrow icons -->
+            <button
+                class="bg-green-500 text-white px-4 py-2 rounded flex items-center space-x-2 hover:bg-green-600 transition">
+                <?= $heroiconsSolid->userHtml('w-5 h-5') ?>
+                <span>User Profile</span>
+                <?= $heroiconsSolid->arrowRightHtml('w-5 h-5') ?>
+            </button>
+        </div>
+    </div>
+
+    <!-- Section: Basic Icon Rendering -->
+    <div class="space-y-4">
+        <h2 class="text-2xl font-semibold">Basic Icon Rendering</h2>
+        <p>In this task, you need to display two different Heroicons: a solid checkmark <code>code: check</code> and an outline star <code>code: star</code>. The solid
+            icon should be green <code>text-green-500</code>, while the outline icon should be blue <code>text-blue-500</code>.
+            Both icons should change to a darker shade <code>text-green-700</code> and <code>text-blue-700</code> when hovered over.</p>
+        <div class="flex space-x-4">
+            <!-- Render a solid check icon -->
+            <div class="flex flex-col items-center">
+                <?= $heroiconsSolid->renderHtml('check', 'w-12 h-12 text-green-500 hover:text-green-700') ?>
+                <span class="text-sm mt-2">Solid Check</span>
+            </div>
+
+            <!-- Render an outline star icon -->
+            <div class="flex flex-col items-center">
+                <?= $heroiconsOutline->renderHtml('star', 'w-12 h-12 text-blue-500 hover:text-blue-700') ?>
+                <span class="text-sm mt-2">Outline Star</span>
+            </div>
+        </div>
+    </div>
+</div>

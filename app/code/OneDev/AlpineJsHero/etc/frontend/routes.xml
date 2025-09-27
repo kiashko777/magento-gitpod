@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:App/etc/routes.xsd">
+    <router id="standard">
+        <route id="alpinejshero_examples" frontName="alpinejs-hero-examples">
+            <module name="OneDev_AlpineJsHero"/>
+        </route>
+
+        <route id="alpinejshero_todo" frontName="alpinejs-hero-todo">
+            <module name="OneDev_AlpineJsHero"/>
+        </route>
+
+        <route id="alpinejshero_solution" frontName="alpinejs-hero-solution">
+            <module name="OneDev_AlpineJsHero"/>
+        </route>
+    </router>
+</config>
