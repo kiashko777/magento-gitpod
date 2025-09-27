@@ -11,7 +11,27 @@ cd /workspace/magento-gitpod
 check_service() {
     local service=$1
     local port=$2
-    nc -zv localhost $port 2>/dev/null
+
+    # Special check for MySQL
+    if [ "$service" = "MySQL" ] && [ "$port" = "3306" ]; then
+        docker exec mysql-server mysql -uroot -pnem4540 -e "SELECT 1" >/dev/null 2>&1
+        return $?
+    fi
+
+    # Special check for Elasticsearch
+    if [ "$service" = "Elasticsearch" ] && [ "$port" = "9200" ]; then
+        curl -s -o /dev/null -w "%{http_code}" --connect-timeout 2 http://localhost:9200/_cluster/health | grep -q "200"
+        return $?
+    fi
+
+    # Special check for Redis
+    if [ "$service" = "Redis" ] && [ "$port" = "6379" ]; then
+        docker exec redis redis-cli ping >/dev/null 2>&1
+        return $?
+    fi
+
+    # Default check using curl
+    curl -s --connect-timeout 1 localhost:$port >/dev/null 2>&1
     return $?
 }
 
@@ -38,12 +58,11 @@ wait_for_service() {
 
 # 1. Start MySQL if not running
 echo "1. Checking MySQL..."
-if ! check_service "MySQL" 3306; then
-    echo "   Starting MySQL in Docker..."
-    # Stop any existing MySQL container
-    docker stop mysql-server 2>/dev/null
-    docker rm mysql-server 2>/dev/null
+# Check if MySQL container exists
+MYSQL_STATUS=$(docker inspect -f '{{.State.Status}}' mysql-server 2>/dev/null || echo "missing")
 
+if [ "$MYSQL_STATUS" = "missing" ]; then
+    echo "   Starting MySQL in Docker..."
     # Start MySQL with existing data
     docker run -d --name mysql-server \
         -e MYSQL_ROOT_PASSWORD=nem4540 \
@@ -54,21 +73,43 @@ if ! check_service "MySQL" 3306; then
     wait_for_service "MySQL" 3306
 
     # Grant permissions for remote connections
-    sleep 5
-    docker exec mysql-server mysql -uroot -pnem4540 -e "GRANT ALL PRIVILEGES ON *.* TO 'root'@'%' IDENTIFIED BY 'nem4540' WITH GRANT OPTION; FLUSH PRIVILEGES;" 2>/dev/null
+    sleep 10
+    docker exec mysql-server mysql -uroot -pnem4540 -e "GRANT ALL PRIVILEGES ON *.* TO 'root'@'%' IDENTIFIED BY 'nem4540' WITH GRANT OPTION; FLUSH PRIVILEGES;" 2>/dev/null || true
     echo "   MySQL is ready!"
+elif [ "$MYSQL_STATUS" = "exited" ]; then
+    echo "   Restarting MySQL container..."
+    docker start mysql-server
+    wait_for_service "MySQL" 3306
+    echo "   MySQL is ready!"
+elif [ "$MYSQL_STATUS" = "running" ]; then
+    if check_service "MySQL" 3306; then
+        echo "   MySQL is already running ✓"
+    else
+        echo "   MySQL container is running but not responding. Restarting..."
+        docker restart mysql-server
+        wait_for_service "MySQL" 3306
+        echo "   MySQL is ready!"
+    fi
 else
-    echo "   MySQL is already running ✓"
+    echo "   MySQL is in unexpected state: $MYSQL_STATUS. Recreating..."
+    docker stop mysql-server 2>/dev/null
+    docker rm mysql-server 2>/dev/null
+    docker run -d --name mysql-server \
+        -e MYSQL_ROOT_PASSWORD=nem4540 \
+        -v /workspace/magento-gitpod/mysql:/var/lib/mysql \
+        -p 3306:3306 \
+        mysql:5.7
+    wait_for_service "MySQL" 3306
+    echo "   MySQL is ready!"
 fi
 
 # 2. Start Elasticsearch if not running
 echo "2. Checking Elasticsearch..."
-if ! check_service "Elasticsearch" 9200; then
-    echo "   Starting Elasticsearch in Docker..."
-    # Stop any existing Elasticsearch container
-    docker stop elasticsearch 2>/dev/null
-    docker rm elasticsearch 2>/dev/null
+# Check if Elasticsearch container exists
+ES_STATUS=$(docker inspect -f '{{.State.Status}}' elasticsearch 2>/dev/null || echo "missing")
 
+if [ "$ES_STATUS" = "missing" ]; then
+    echo "   Starting Elasticsearch in Docker..."
     # Start Elasticsearch
     docker run -d --name elasticsearch \
         -p 9200:9200 -p 9300:9300 \
@@ -79,8 +120,31 @@ if ! check_service "Elasticsearch" 9200; then
 
     wait_for_service "Elasticsearch" 9200
     echo "   Elasticsearch is ready!"
+elif [ "$ES_STATUS" = "exited" ]; then
+    echo "   Restarting Elasticsearch container..."
+    docker start elasticsearch
+    wait_for_service "Elasticsearch" 9200
+    echo "   Elasticsearch is ready!"
+elif [ "$ES_STATUS" = "running" ]; then
+    if check_service "Elasticsearch" 9200; then
+        echo "   Elasticsearch is already running ✓"
+    else
+        echo "   Elasticsearch container is running but not responding. Waiting..."
+        wait_for_service "Elasticsearch" 9200
+        echo "   Elasticsearch is ready!"
+    fi
 else
-    echo "   Elasticsearch is already running ✓"
+    echo "   Elasticsearch is in unexpected state: $ES_STATUS. Recreating..."
+    docker stop elasticsearch 2>/dev/null
+    docker rm elasticsearch 2>/dev/null
+    docker run -d --name elasticsearch \
+        -p 9200:9200 -p 9300:9300 \
+        -e "discovery.type=single-node" \
+        -e "xpack.security.enabled=false" \
+        -e "ES_JAVA_OPTS=-Xms512m -Xmx512m" \
+        elasticsearch:7.17.10
+    wait_for_service "Elasticsearch" 9200
+    echo "   Elasticsearch is ready!"
 fi
 
 # 3. Start Redis if not running (optional)
@@ -98,6 +162,14 @@ if ! check_service "Redis" 6379; then
     echo "   Redis is ready!"
 else
     echo "   Redis is already running ✓"
+fi
+
+# Restart Redis if it exited
+REDIS_STATUS=$(docker inspect -f '{{.State.Status}}' redis 2>/dev/null || echo "missing")
+if [ "$REDIS_STATUS" = "exited" ]; then
+    echo "   Restarting Redis container..."
+    docker start redis
+    wait_for_service "Redis" 6379
 fi
 
 # 4. Update Magento configuration

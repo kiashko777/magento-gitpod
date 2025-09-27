@@ -18,9 +18,27 @@ ERRORS=0
 check_service() {
     local service=$1
     local port=$2
+    local is_running=0
 
-    nc -zv localhost $port 2>/dev/null
-    if [ $? -eq 0 ]; then
+    # Special check for MySQL
+    if [ "$service" = "MySQL" ] && [ "$port" = "3306" ]; then
+        docker exec mysql-server mysql -uroot -pnem4540 -e "SELECT 1" >/dev/null 2>&1
+        is_running=$?
+    # Special check for Elasticsearch
+    elif [ "$service" = "Elasticsearch" ] && [ "$port" = "9200" ]; then
+        curl -s -o /dev/null -w "%{http_code}" --connect-timeout 2 http://localhost:9200/_cluster/health | grep -q "200"
+        is_running=$?
+    # Special check for Redis
+    elif [ "$service" = "Redis" ] && [ "$port" = "6379" ]; then
+        docker exec redis redis-cli ping >/dev/null 2>&1
+        is_running=$?
+    # Default check using curl
+    else
+        curl -s --connect-timeout 1 localhost:$port >/dev/null 2>&1
+        is_running=$?
+    fi
+
+    if [ $is_running -eq 0 ]; then
         echo -e "${GREEN}✓${NC} $service is running on port $port"
         return 0
     else
